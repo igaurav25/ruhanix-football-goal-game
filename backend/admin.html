@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruhanix Admin Panel</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; display: flex; background-color: #0d1117; color: #c9d1d9; }
+        
+        /* Sidebar Styling */
+        .sidebar { width: 250px; background-color: #161b22; height: 100vh; padding-top: 20px; border-right: 1px solid #30363d; }
+        .sidebar h2 { text-align: center; color: #58a6ff; margin-bottom: 30px; }
+        .sidebar a { display: block; padding: 15px 25px; color: #c9d1d9; text-decoration: none; font-size: 16px; border-bottom: 1px solid #30363d; cursor: pointer; transition: 0.3s; }
+        .sidebar a:hover, .sidebar a.active { background-color: #1f6feb; color: #fff; border-left: 5px solid #58a6ff; padding-left: 20px; }
+        
+        /* Main Content Styling */
+        .main-content { flex: 1; padding: 40px; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #30363d; padding-bottom: 15px; margin-bottom: 30px; }
+        .header h1 { margin: 0; color: #fff; }
+        .logout-btn { background-color: #da3633; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        
+        /* Sections */
+        .tab-content { display: none; background-color: #161b22; padding: 25px; border-radius: 10px; border: 1px solid #30363d; }
+        .tab-content.active { display: block; }
+        .tab-content h3 { color: #58a6ff; margin-top: 0; }
+        
+        /* Tables */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #30363d; }
+        th { color: #8b949e; background-color: #0d1117; }
+        
+        /* Buttons */
+        .action-btn { background-color: #238636; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; }
+        .danger-btn { background-color: #da3633; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; }
+        
+        /* Form Inputs */
+        input[type="text"], select { width: 100%; padding: 10px; margin: 10px 0; background-color: #0d1117; color: white; border: 1px solid #30363d; border-radius: 6px; }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR NAVIGATION -->
+    <div class="sidebar">
+        <h2>⚙️ RUHANIX ADMIN</h2>
+        <a class="nav-link active" onclick="showTab('users')">👥 Manage Users</a>
+        <a class="nav-link" onclick="showTab('reports')">📊 Manage Reports</a>
+        <a class="nav-link" onclick="showTab('settings')">🛠️ Platform Settings</a>
+        <a class="nav-link" onclick="showTab('features')">✨ Manage Features</a>
+    </div>
+
+    <!-- MAIN WORKSPACE -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Admin Dashboard</h1>
+            <button class="logout-btn">Logout Admin</button>
+        </div>
+
+        <!-- 1. MANAGE ALL USERS -->
+        <div id="users" class="tab-content active">
+            <h3>Manage All Users</h3>
+            <p>View, ban, or modify player accounts.</p>
+            <table>
+                <tr><th>ID</th><th>Username</th><th>Level</th><th>Action</th></tr>
+                <tr><td>1</td><td>Love_Gaurav</td><td>12</td><td><button class="danger-btn">Ban User</button></td></tr>
+                <tr><td>2</td><td>ProStriker</td><td>5</td><td><button class="danger-btn">Ban User</button></td></tr>
+            </table>
+        </div>
+
+        <!-- 2. MANAGE REPORTS -->
+        <div id="reports" class="tab-content">
+            <h3>Manage Reports</h3>
+            <p>Track match histories, win/loss records, and server logs.</p>
+            <table>
+                <tr><th>Report ID</th><th>Type</th><th>Details</th><th>Status</th></tr>
+                <tr><td>#1001</td><td>Match Error</td><td>Player disconnected mid-game</td><td><button class="action-btn">Resolve</button></td></tr>
+                <tr><td>#1002</td><td>Bug Report</td><td>Ball went through the net</td><td><button class="action-btn">Resolve</button></td></tr>
+            </table>
+        </div>
+
+        <!-- 3. MANAGE PLATFORM SETTINGS -->
+        <div id="settings" class="tab-content">
+            <h3>Manage Platform Settings</h3>
+            <p>Control global server variables.</p>
+            <label>Server Status:</label>
+            <select>
+                <option>Online (Active)</option>
+                <option>Maintenance Mode</option>
+            </select>
+            <br><br>
+            <label>XP Multiplier (Event):</label>
+            <select>
+                <option>1x (Normal)</option>
+                <option>2x (Weekend Boost)</option>
+            </select>
+            <br><br>
+            <button class="action-btn">Save Changes</button>
+        </div>
+
+        <!-- 4. MANAGE FEATURES -->
+        <div id="features" class="tab-content">
+            <h3>Manage Features</h3>
+            <p>Enable or disable specific game features mentioned in the project.</p>
+            <table>
+                <tr><th>Feature Name</th><th>Status</th><th>Toggle Action</th></tr>
+                <tr><td>Shop & Inventory</td><td>Enabled</td><td><button class="danger-btn">Disable</button></td></tr>
+                <tr><td>Time Attack Mode</td><td>Enabled</td><td><button class="danger-btn">Disable</button></td></tr>
+                <tr><td>Global Leaderboard</td><td>Enabled</td><td><button class="danger-btn">Disable</button></td></tr>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT FOR TABS -->
+    <script>
+        function showTab(tabId) {
+            // Hide all tabs
+            let contents = document.getElementsByClassName('tab-content');
+            for(let i=0; i < contents.length; i++) {
+                contents[i].classList.remove('active');
+            }
+            // Remove active class from sidebar links
+            let links = document.getElementsByClassName('nav-link');
+            for(let i=0; i < links.length; i++) {
+                links[i].classList.remove('active');
+            }
+            
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            // Add active class to clicked link
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>
